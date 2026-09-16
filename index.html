@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#121013" />
+  <meta name="description" content="Galería audiovisual y la historia de amor de Valeria & Josué. Nuestro camino hacia el altar." />
+  
+  <!-- OpenGraph para compartir en WhatsApp / Redes sociales -->
+  <meta property="og:title" content="Valeria & Josué — Nuestra Historia y Galería" />
+  <meta property="og:description" content="Recorre nuestros mejores momentos, fotos y videos de cómo llegamos hasta el día de nuestra boda." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop" />
+  <meta property="og:type" content="website" />
+
+  <title>Valeria & Josué — Galería de Nuestra Historia</title>
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231c181f'/%3E%3Cpath d='M32 46S16 36 16 23c0-7 9-11 16-2 7-9 16-5 16 2 0 13-16 23-16 23Z' fill='%23e2b77a'/%3E%3C/svg%3E" />
+
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Estilos CSS Modulares -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/timeline.css" />
+  <link rel="stylesheet" href="css/gallery.css" />
+  <link rel="stylesheet" href="css/stories.css" />
+</head>
+<body>
+
+  <!-- Barra Superior de Navegación -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#inicio" class="brand-monogram" id="brandMonogram">
+        Valeria <span>&</span> Josué
+      </a>
+      <nav class="nav-links">
+        <a href="#historia" class="nav-link">Nuestra Historia</a>
+        <a href="#galeria" class="nav-link">Galería</a>
+        <a href="#invitados" class="nav-link">Álbum Invitados</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Botón Flotante de Música Ambiental -->
+  <button id="musicToggleBtn" class="music-toggle-btn" aria-label="Controlar música de fondo">
+    <svg class="music-icon" viewBox="0 0 24 24">
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+    </svg>
+    <span id="musicLabel">Música</span>
+  </button>
+
+  <main id="inicio">
+    <!-- SECCIÓN HERO -->
+    <section class="hero-section">
+      <div class="hero-glow-bg"></div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="hero-tagline" id="heroTagline">NUESTRA HISTORIA · 2020 — 2026</span>
+          <h1 class="hero-title" id="heroTitle">
+            Valeria <em>& Josué</em>
+          </h1>
+          <p class="hero-description" id="heroDescription">
+            Bienvenidos a nuestro rincón de recuerdos. Todo lo que nos trajo hasta aquí: las miradas iniciales, los viajes que marcaron nuestra vida y el gran paso que hoy celebramos ante Dios y con ustedes.
+          </p>
+          <div class="hero-actions">
+            <a href="#galeria" class="btn-primary">
+              <span>Explorar Recuerdos</span>
+              <span class="btn-arrow">↓</span>
+            </a>
+            <button id="btnOpenStories" class="btn-stories" type="button">
+              <span class="story-ring">▶</span>
+              <span>Ver en Modo Historia (Reel)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-art-wrapper">
+          <div class="hero-art-card" id="heroArtCard">
+            <!-- Imagen inyectada dinámicamente -->
+          </div>
+          <div class="hero-floating-badge">
+            <span id="heroBadgeLocation">Lima, Perú</span>
+            <strong id="heroBadgeDate">21 · Noviembre · 2026</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN LÍNEA DE TIEMPO (TIMELINE DE LA HISTORIA) -->
+    <section id="historia" class="timeline-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Capítulo a Capítulo</span>
+          <h2 class="section-title">El Camino <em>hacia el Altar</em></h2>
+          <p class="section-lead">
+            Los instantes más significativos que fueron tejiendo nuestra promesa de amor año tras año.
+          </p>
+        </div>
+
+        <div class="timeline-container" id="timelineItemsContainer">
+          <!-- Items del timeline inyectados dinámicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN GALERÍA AUDIOVISUAL COMPLETA -->
+    <section id="galeria" class="gallery-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Álbum de Recuerdos</span>
+          <h2 class="section-title">Galería <em>Audiovisual</em></h2>
+          <p class="section-lead">
+            Fotografías en alta resolución y clips de video que guardan la esencia de nuestras risas y momentos inolvidables.
+          </p>
+        </div>
+
+        <!-- Filtros de Categorías -->
+        <div class="gallery-filters">
+          <button class="filter-btn active" data-filter="todos">Todos</button>
+          <button class="filter-btn" data-filter="comienzo">Comienzo</button>
+          <button class="filter-btn" data-filter="viajes">Viajes & Risas</button>
+          <button class="filter-btn" data-filter="propuesta">La Propuesta</button>
+          <button class="filter-btn" data-filter="videos">🎬 Clips & Videos</button>
+        </div>
+
+        <!-- Grid de Fotos y Videos -->
+        <div class="gallery-grid" id="galleryGrid">
+          <!-- Tarjetas inyectadas dinámicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN RINCÓN DE LOS INVITADOS (INSPIRADO EN TIKTOK @BODASCONFLOW & @ANDREA_TOPEVENTOS) -->
+    <section id="invitados" class="guests-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Dinámica para Invitados</span>
+          <h2 class="section-title">¡Sé Parte <em>de Nuestro Álbum!</em></h2>
+          <p class="section-lead">
+            Queremos atesorar la boda vista desde sus ojos. Sube aquí tus fotos del evento o déjanos un mensaje de felicitación.
+          </p>
+        </div>
+
+        <div class="guests-grid">
+          <!-- Tarjeta 1: Subir fotos & Retos del Espía -->
+          <div class="guests-card">
+            <h3>Comparte tus Fotos & Videos</h3>
+            <p>
+              Escaneaste el código QR en la mesa, ¡ahora ayúdanos a capturar cada sonrisa! Puedes subir las fotos directamente a nuestra carpeta compartida o enviárnoslas por WhatsApp.
+            </p>
+
+            <div class="upload-actions">
+              <a id="btnUploadPhotos" href="https://photos.google.com/" target="_blank" rel="noopener noreferrer" class="btn-upload">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span>Subir Fotos al Álbum en la Nube</span>
+              </a>
+              <a id="btnWhatsappPhotos" href="https://wa.me/51999999999" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-upload">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                <span>Enviar Fotos por WhatsApp a los Novios</span>
+              </a>
+            </div>
+
+            <!-- Retos Fotográficos -->
+            <div class="photo-challenges-title">
+              <span>🎯 Retos Fotográficos de tu Mesa:</span>
+            </div>
+            <ul class="challenges-list" id="challengesList">
+              <!-- Retos inyectados dinámicamente -->
+            </ul>
+          </div>
+
+          <!-- Tarjeta 2: Muro de Deseos & Dedicatorias -->
+          <div class="guests-card">
+            <h3>Muro de Amor & Dedicatorias</h3>
+            <p>
+              Escríbenos una bendición o dedicatoria para recordar siempre este gran día.
+            </p>
+
+            <form id="guestbookForm" class="guestbook-form">
+              <div class="form-group">
+                <input type="text" id="wishAuthor" placeholder="Tu nombre / Tu familia" required />
+              </div>
+              <div class="form-group">
+                <textarea id="wishMessage" rows="3" placeholder="Escribe tu dedicatoria con cariño..." required></textarea>
+              </div>
+              <button type="submit" class="btn-send-wish">
+                <span>Enviar Dedicatoria</span>
+                <span>💌</span>
+              </button>
+            </form>
+
+            <div class="wishes-stream" id="wishesStream">
+              <!-- Mensajes inyectados dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-monogram" id="footerMonogram">V & J</div>
+      <p class="footer-quote" id="footerQuote">“Nos vemos en el altar”</p>
+      <p class="footer-sub" id="footerSub">Con todo nuestro amor y gratitud hacia cada uno de ustedes.</p>
+      <div class="footer-hashtag" id="footerHashtag">#BodaValeriayJosue2026</div>
+      <div class="footer-credits">
+        GaleryQR2 · Diseñado para celebrar el amor · Hecho para recordar
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================
+       MODAL LIGHTBOX INMERSIVO (FOTOS Y VIDEOS)
+       =================================================================== -->
+  <div id="lightboxModal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Visor de medios">
+    <div class="lightbox-dialog">
+      <button id="lightboxClose" class="lightbox-close" aria-label="Cerrar visor">&times;</button>
+      <button id="lightboxPrev" class="lightbox-nav-btn lightbox-prev" aria-label="Anterior">&#10094;</button>
+      <button id="lightboxNext" class="lightbox-nav-btn lightbox-next" aria-label="Siguiente">&#10095;</button>
+
+      <div class="lightbox-media-container" id="lightboxMediaContainer">
+        <!-- Imagen o video inyectado dinámicamente -->
+      </div>
+
+      <div class="lightbox-footer">
+        <div class="lightbox-details">
+          <h4 id="lightboxTitle">Título del Recuerdo</h4>
+          <p id="lightboxSubtitle">Descripción detallada</p>
+        </div>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL STORIES / REEL (ESTILO TIKTOK / INSTAGRAM STORIES)
+       =================================================================== -->
+  <div id="storiesModal" class="stories-modal" role="dialog" aria-modal="true" aria-label="Modo Historias de Amor">
+    <div class="stories-viewport">
+      <!-- Barras de progreso segmentadas -->
+      <div class="stories-progress-bar-container" id="storiesProgressContainer"></div>
+
+      <!-- Cabecera de la historia -->
+      <div class="stories-header">
+        <div class="story-profile">
+          <div class="story-avatar" id="storyAvatar">V & J</div>
+          <div class="story-user-info">
+            <h5 id="storyUserName">Valeria & Josué</h5>
+            <span>Nuestra Historia</span>
+          </div>
+        </div>
+        <button id="storyCloseBtn" class="story-close-btn" aria-label="Cerrar historias">&times;</button>
+      </div>
+
+      <!-- Capa de medios de la historia -->
+      <div class="story-media-layer" id="storyMediaLayer"></div>
+
+      <!-- Zonas táctiles para avanzar o retroceder -->
+      <div class="story-tap-zone">
+        <div class="story-tap-left" id="storyTapLeft" title="Historia anterior"></div>
+        <div class="story-tap-right" id="storyTapRight" title="Siguiente historia"></div>
+      </div>
+
+      <!-- Capa de textos y subtítulos -->
+      <div class="story-caption-layer">
+        <h4 class="story-title" id="storyTitle">Título de la historia</h4>
+        <p class="story-text" id="storyText">Texto descriptivo de este momento especial...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="js/lightbox.js"></script>
+  <script src="js/stories.js"></script>
+  <script src="js/guestbook.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
