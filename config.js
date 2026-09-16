@@ -232,6 +232,27 @@ window.GALLERY_CONFIG = {
       { autor: "Familia Mendoza Alarcón", mensaje: "¡Que Dios bendiga infinitamente este matrimonio! Los amamos con todo el corazón.", fecha: "Hoy" },
       { autor: "Claudia & Esteban", mensaje: "¡Qué emoción verlos llegar al altar tan felices y radiantes! Que nunca falte la alegría.", fecha: "Hoy" },
       { autor: "Amigos de la Promoción", mensaje: "¡Vivan los novios! A celebrar esta noche inolvidable.", fecha: "Hoy" }
+    ],
+    // Fotos iniciales de muestra para el Muro de Fotos en Vivo de los invitados
+    fotosEnVivoIniciales: [
+      {
+        autor: "Claudia & Esteban - Mesa 2",
+        fotoUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop",
+        comentario: "¡Felicidades a los novios más hermosos! 🎉💍",
+        fecha: "Hace 10 min"
+      },
+      {
+        autor: "Familia Alarcón - Mesa 5",
+        fotoUrl: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop",
+        comentario: "¡La mejor boda del año! Brindando por ustedes 🥂",
+        fecha: "Hace 20 min"
+      },
+      {
+        autor: "Amigos de la Promoción",
+        fotoUrl: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
+        comentario: "¡A romper la pista de baile esta noche! 💃🕺",
+        fecha: "Hace 35 min"
+      }
     ]
   },
 

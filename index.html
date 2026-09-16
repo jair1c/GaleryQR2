@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="css/timeline.css" />
   <link rel="stylesheet" href="css/gallery.css" />
   <link rel="stylesheet" href="css/stories.css" />
+  <link rel="stylesheet" href="css/guest-album.css" />
 </head>
 <body>
 
@@ -144,51 +145,69 @@
           </p>
         </div>
 
+        <!-- Inputs invisibles para cámara del espía y canvas de polaroids -->
+        <input type="file" id="spyCameraInput" accept="image/*" capture="environment" style="display:none;" />
+        <canvas id="polaroidCanvas" style="display:none;"></canvas>
+
         <div class="guests-grid">
-          <!-- Tarjeta 1: Subir fotos & Retos del Espía -->
+          <!-- Tarjeta 1: Retos del Espía con Cámara Directa -->
           <div class="guests-card">
-            <h3>Comparte tus Fotos & Videos</h3>
+            <h3>🕵️‍♀️ El Juego del Espía (Retos de Mesa)</h3>
             <p>
-              Escaneaste el código QR en la mesa, ¡ahora ayúdanos a capturar cada sonrisa! Puedes subir las fotos directamente a nuestra carpeta compartida o enviárnoslas por WhatsApp.
+              ¡Conviértete en el fotógrafo oficial de tu mesa! Cumple cada reto con tu cámara, genera tu foto <strong>Polaroid</strong> de recuerdo y ayúdanos a capturar los mejores momentos.
             </p>
 
-            <div class="upload-actions">
-              <a id="btnUploadPhotos" href="https://photos.google.com/" target="_blank" rel="noopener noreferrer" class="btn-upload">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <span>Subir Fotos al Álbum en la Nube</span>
-              </a>
-              <a id="btnWhatsappPhotos" href="https://wa.me/51999999999" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-upload">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
-                <span>Enviar Fotos por WhatsApp a los Novios</span>
-              </a>
+            <!-- Barra de Progreso de Retos -->
+            <div class="spy-progress-wrapper">
+              <div class="spy-progress-header">
+                <span class="spy-progress-title">Tu Progreso de Misión</span>
+                <span class="spy-progress-counter" id="spyProgressCounter">0 de 4 retos</span>
+              </div>
+              <div class="spy-progress-bar-bg">
+                <div class="spy-progress-bar-fill" id="spyProgressFill"></div>
+              </div>
             </div>
 
-            <!-- Retos Fotográficos -->
-            <div class="photo-challenges-title">
-              <span>🎯 Retos Fotográficos de tu Mesa:</span>
+            <!-- Lista de Retos Interactivos -->
+            <div class="interactive-challenges-grid" id="challengesList">
+              <!-- Retos inyectados dinámicamente con botón de cámara -->
             </div>
-            <ul class="challenges-list" id="challengesList">
-              <!-- Retos inyectados dinámicamente -->
-            </ul>
+
+            <!-- Acciones de respaldo y subida masiva -->
+            <div style="margin-top: 24px;">
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                ¿Tienes muchas fotos o videos largos? Súbelos directo a nuestra nube:
+              </p>
+              <div class="upload-actions">
+                <a id="btnUploadPhotos" href="https://photos.google.com/" target="_blank" rel="noopener noreferrer" class="btn-upload">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span>Subir Álbum Completo a la Nube</span>
+                </a>
+                <a id="btnWhatsappPhotos" href="https://wa.me/51999999999" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-upload">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                  <span>Enviar por WhatsApp a los Novios</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           <!-- Tarjeta 2: Muro de Deseos & Dedicatorias -->
           <div class="guests-card">
-            <h3>Muro de Amor & Dedicatorias</h3>
+            <h3>💌 Muro de Amor & Bendiciones</h3>
             <p>
-              Escríbenos una bendición o dedicatoria para recordar siempre este gran día.
+              Escríbenos una dedicatoria o bendición para guardar por siempre el cariño de este día.
             </p>
 
             <form id="guestbookForm" class="guestbook-form">
               <div class="form-group">
-                <input type="text" id="wishAuthor" placeholder="Tu nombre / Tu familia" required />
+                <input type="text" id="wishAuthor" placeholder="Tu nombre / Familia / Mesa" required />
               </div>
               <div class="form-group">
-                <textarea id="wishMessage" rows="3" placeholder="Escribe tu dedicatoria con cariño..." required></textarea>
+                <textarea id="wishMessage" rows="3" placeholder="Escribe tu bendición o mensaje con cariño..." required></textarea>
               </div>
               <button type="submit" class="btn-send-wish">
-                <span>Enviar Dedicatoria</span>
-                <span>💌</span>
+                <span>Publicar Dedicatoria</span>
+                <span>💖</span>
               </button>
             </form>
 
@@ -197,8 +216,65 @@
             </div>
           </div>
         </div>
+
+        <!-- SECCIÓN MURO DE FOTOS EN VIVO (LIVE WEDDING WALL) -->
+        <div class="live-wall-container">
+          <div class="live-wall-header">
+            <div>
+              <h3>
+                Álbum en Vivo de la Fiesta
+                <span><i class="live-wall-pulse"></i> EN VIVO</span>
+              </h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">
+                Fotos capturadas por los invitados durante la celebración. ¡Aparecen al instante!
+              </p>
+            </div>
+            <button id="btnOpenUploadModal" class="btn-upload-live" type="button">
+              <span>📸 Subir Foto al Muro en Vivo</span>
+            </button>
+          </div>
+
+          <!-- Grid de fotos en tiempo real -->
+          <div class="live-wall-grid" id="liveWallGrid">
+            <!-- Fotos en vivo inyectadas dinámicamente -->
+          </div>
+        </div>
       </div>
     </section>
+
+    <!-- MODAL PARA SUBIR FOTO AL MURO EN VIVO -->
+    <div id="uploadPhotoModal" class="upload-modal" role="dialog" aria-modal="true" aria-label="Subir foto al muro en vivo">
+      <div class="upload-modal-dialog">
+        <button id="uploadModalClose" class="upload-modal-close" aria-label="Cerrar">&times;</button>
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 8px;">Comparte tu Foto en Vivo</h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary);">Toma una foto o elígela de tu galería para que aparezca en el álbum de la fiesta.</p>
+
+        <form id="uploadLivePhotoForm">
+          <input type="file" id="uploadFileInput" accept="image/*" style="display:none;" />
+
+          <div class="upload-preview-box" id="uploadPreviewBox" title="Toca para tomar o seleccionar foto">
+            <img id="uploadPreviewImg" alt="Vista previa de foto" />
+            <div class="upload-placeholder-content" id="uploadPlaceholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <p style="font-weight: 600; color: var(--accent-gold);">Toca aquí para tomar o subir foto</p>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Cámara o Galería</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <input type="text" id="uploadAuthor" placeholder="Tu nombre / Mesa (ej: Tía Rosa - Mesa 4)" required />
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <input type="text" id="uploadCaption" placeholder="Mensaje corto (ej: ¡Qué vivan los novios!)" />
+          </div>
+
+          <button type="submit" class="btn-upload" style="width: 100%; justify-content: center;">
+            <span>✨ Publicar en el Muro de la Boda</span>
+          </button>
+        </form>
+      </div>
+    </div>
   </main>
 
   <!-- PIE DE PÁGINA -->
@@ -275,6 +351,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="config.js"></script>
   <script src="js/lightbox.js"></script>
   <script src="js/stories.js"></script>

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar componentes
   const lightbox = new window.GalleryLightbox();
   const stories = new window.LoveStoriesEngine();
-  const guestbook = new window.GuestbookManager();
+  const guestbook = new (window.GuestAlbumManager || window.GuestbookManager)();
 
   stories.init(config.stories, config);
   guestbook.init(config);
