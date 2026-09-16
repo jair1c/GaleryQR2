@@ -275,6 +275,38 @@
         </form>
       </div>
     </div>
+
+    <!-- MODAL DE INSPECCIÓN Y VALIDACIÓN DEL ESPÍA -->
+    <div id="verifyChallengeModal" class="verify-modal" role="dialog" aria-modal="true" aria-label="Inspección de reto del espía">
+      <div class="verify-dialog">
+        <div class="verify-badge-header">
+          <span>🕵️ Inspección de Misión</span>
+        </div>
+        <h3 class="verify-challenge-title" id="verifyChallengeTitle">Nombre del Reto</h3>
+
+        <div class="verify-preview-container">
+          <img id="verifyPreviewImg" class="verify-preview-img" alt="Foto para inspección" />
+          <div class="verify-scan-line"></div>
+        </div>
+
+        <ul class="verify-checklist" id="verifyChecklist">
+          <!-- Checks dinámicos: iluminación, personas/rostros, contraste -->
+        </ul>
+
+        <div class="verify-verdict-box" id="verifyVerdictBox">
+          <!-- Mensaje de veredicto -->
+        </div>
+
+        <div class="verify-actions">
+          <button type="button" id="btnConfirmChallenge" class="btn-confirm-challenge">
+            <span>✅ Cumplir Reto</span>
+          </button>
+          <button type="button" id="btnRetakeChallenge" class="btn-retake-photo">
+            <span>🔄 Tomar Otra</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- PIE DE PÁGINA -->

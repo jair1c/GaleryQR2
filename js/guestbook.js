@@ -48,6 +48,16 @@ class GuestAlbumManager {
 
     // Canvas oculto para polaroids
     this.polaroidCanvas = document.getElementById('polaroidCanvas');
+
+    // Elementos del Modal de Inspección y Filtro del Espía
+    this.verifyModal = document.getElementById('verifyChallengeModal');
+    this.verifyTitle = document.getElementById('verifyChallengeTitle');
+    this.verifyImg = document.getElementById('verifyPreviewImg');
+    this.verifyChecklist = document.getElementById('verifyChecklist');
+    this.verifyVerdictBox = document.getElementById('verifyVerdictBox');
+    this.btnConfirmChallenge = document.getElementById('btnConfirmChallenge');
+    this.btnRetakeChallenge = document.getElementById('btnRetakeChallenge');
+    this.pendingChallengeData = null;
   }
 
   init(config) {
@@ -67,6 +77,7 @@ class GuestAlbumManager {
     this.initLiveWall(config.rinconInvitados.fotosEnVivoIniciales);
     this.initGuestbook(config.rinconInvitados.mensajesEjemplo);
     this.initUploadModal();
+    this.initVerificationModal();
   }
 
   /* ===================================================================
@@ -84,6 +95,44 @@ class GuestAlbumManager {
     // Evento de captura de cámara
     if (this.cameraInput) {
       this.cameraInput.addEventListener('change', (e) => this.handleCameraCapture(e));
+    }
+  }
+
+  initVerificationModal() {
+    if (this.btnConfirmChallenge) {
+      this.btnConfirmChallenge.addEventListener('click', () => {
+        if (this.pendingChallengeData) {
+          this.saveChallengeCompletion(this.pendingChallengeData.index, this.pendingChallengeData.dataUrl);
+          this.closeVerificationModal();
+        }
+      });
+    }
+
+    if (this.btnRetakeChallenge) {
+      this.btnRetakeChallenge.addEventListener('click', () => {
+        const prevIndex = this.pendingChallengeData ? this.pendingChallengeData.index : this.activeChallengeIndex;
+        this.closeVerificationModal();
+        this.activeChallengeIndex = prevIndex;
+        if (this.cameraInput) {
+          this.cameraInput.click();
+        }
+      });
+    }
+
+    if (this.verifyModal) {
+      this.verifyModal.addEventListener('click', (e) => {
+        if (e.target === this.verifyModal) {
+          this.closeVerificationModal();
+        }
+      });
+    }
+  }
+
+  closeVerificationModal() {
+    if (this.verifyModal) {
+      this.verifyModal.classList.remove('active', 'scanning');
+      document.body.style.overflow = '';
+      this.pendingChallengeData = null;
     }
   }
 
@@ -163,11 +212,198 @@ class GuestAlbumManager {
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataUrl = event.target.result;
-      this.saveChallengeCompletion(this.activeChallengeIndex, dataUrl);
+      // Abrir modal de inspección y validación del espía
+      this.openVerificationInspection(this.activeChallengeIndex, dataUrl);
     };
     reader.readAsDataURL(file);
     // Reset input
     e.target.value = '';
+  }
+
+  /* ===================================================================
+     FILTROS Y VALIDACIÓN INTELIGENTE DE FOTOS DEL ESPÍA
+     =================================================================== */
+  async openVerificationInspection(index, dataUrl) {
+    if (!this.verifyModal) {
+      // Fallback directo si no existe el modal
+      this.saveChallengeCompletion(index, dataUrl);
+      return;
+    }
+
+    this.pendingChallengeData = { index, dataUrl };
+    const retoObj = this.config.rinconInvitados.retosFotograficos[index];
+    const retoTitulo = retoObj?.reto || 'Reto del Espía';
+
+    if (this.verifyTitle) this.verifyTitle.textContent = retoTitulo;
+    if (this.verifyImg) this.verifyImg.src = dataUrl;
+
+    // Mostrar modal con animación de escaneo láser
+    this.verifyModal.classList.add('active', 'scanning');
+    document.body.style.overflow = 'hidden';
+
+    if (this.verifyChecklist) {
+      this.verifyChecklist.innerHTML = `
+        <li class="verify-check-item">
+          <span class="verify-check-icon">🔍</span>
+          <span>Analizando iluminación, nitidez y presencia en la foto...</span>
+        </li>
+      `;
+    }
+    if (this.verifyVerdictBox) {
+      this.verifyVerdictBox.className = 'verify-verdict-box';
+      this.verifyVerdictBox.textContent = 'Inspeccionando foto...';
+    }
+    if (this.btnConfirmChallenge) {
+      this.btnConfirmChallenge.disabled = true;
+    }
+
+    // Pequeño delay de 800ms para efecto cinematográfico de escaneo
+    setTimeout(async () => {
+      const analysis = await this.analyzePhoto(dataUrl, retoTitulo);
+      this.verifyModal.classList.remove('scanning');
+      this.renderInspectionResults(analysis);
+    }, 850);
+  }
+
+  analyzePhoto(dataUrl, retoTitulo) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = async () => {
+        // Renderizar a un canvas reducido de 320x240 para análisis veloz
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const targetW = 320;
+        const targetH = Math.round(targetW * (img.height / img.width));
+        canvas.width = targetW;
+        canvas.height = targetH;
+        ctx.drawImage(img, 0, 0, targetW, targetH);
+
+        const imgData = ctx.getImageData(0, 0, targetW, targetH);
+        const data = imgData.data;
+        const totalPixels = targetW * targetH;
+
+        let totalLuminance = 0;
+        let skinPixels = 0;
+        let rTotal = 0, gTotal = 0, bTotal = 0;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          rTotal += r;
+          gTotal += g;
+          bTotal += b;
+
+          // Luminancia estándar
+          const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+          totalLuminance += lum;
+
+          // Regla empírica de detección de tonos de piel humana en RGB
+          if (r > 60 && g > 40 && b > 20 && (r - g) > 10 && r > b && (Math.max(r, g, b) - Math.min(r, g, b)) > 15) {
+            skinPixels++;
+          }
+        }
+
+        const avgLuminance = (totalLuminance / totalPixels) / 255;
+        const skinRatio = skinPixels / totalPixels;
+
+        // Varianza de color para descartar fotos completamente planas (pared o mesa vacía)
+        const avgR = rTotal / totalPixels;
+        const avgG = gTotal / totalPixels;
+        const avgB = bTotal / totalPixels;
+        let varianceSum = 0;
+        // Muestra rápida cada 10 píxeles
+        for (let i = 0; i < data.length; i += 40) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          varianceSum += Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
+        }
+        const colorVariance = varianceSum / (totalPixels / 10);
+
+        // Detección de rostros nativa si el navegador la soporta
+        let facesDetected = 0;
+        if ('FaceDetector' in window) {
+          try {
+            const detector = new window.FaceDetector({ fastMode: true, maxDetectedFaces: 5 });
+            const faces = await detector.detect(img);
+            facesDetected = faces ? faces.length : 0;
+          } catch (e) {}
+        }
+
+        // Evaluación de Criterios:
+        // Criterio 1: Iluminación adecuada (no negra por lente tapado, no blanca pura)
+        const isLightingGood = avgLuminance >= 0.12 && avgLuminance <= 0.94;
+
+        // Criterio 2: No es una superficie plana vacía (mantel liso, piso)
+        const isNotFlatSurface = colorVariance >= 14;
+
+        // Criterio 3: Presencia humana (rostro detectado o tonos de piel > 3%)
+        const hasHumanPresence = facesDetected > 0 || skinRatio >= 0.032;
+
+        const checks = [
+          {
+            nombre: 'Iluminación y Claridad',
+            passed: isLightingGood,
+            detalle: isLightingGood
+              ? 'Nivel de luz óptimo'
+              : (avgLuminance < 0.12 ? 'Foto demasiado oscura o con el lente cubierto' : 'Foto sobreexpuesta en blanco')
+          },
+          {
+            nombre: 'Composición y Escena',
+            passed: isNotFlatSurface,
+            detalle: isNotFlatSurface
+              ? 'Escena con elementos y contraste'
+              : 'Parece una superficie plana o vacía (mantel/piso)'
+          },
+          {
+            nombre: 'Presencia Humana',
+            passed: hasHumanPresence,
+            detalle: hasHumanPresence
+              ? (facesDetected > 0 ? `${facesDetected} rostro(s) detectado(s)` : 'Personas detectadas en la toma')
+              : 'No se detectaron personas en la foto'
+          }
+        ];
+
+        // Se aprueba si la iluminación y textura están bien, y hay personas presentes
+        const overallPassed = isLightingGood && isNotFlatSurface && hasHumanPresence;
+
+        resolve({
+          passed: overallPassed,
+          checks
+        });
+      };
+      img.src = dataUrl;
+    });
+  }
+
+  renderInspectionResults(analysis) {
+    if (!this.verifyChecklist || !this.verifyVerdictBox) return;
+
+    this.verifyChecklist.innerHTML = '';
+
+    analysis.checks.forEach((chk) => {
+      const li = document.createElement('li');
+      li.className = `verify-check-item ${chk.passed ? 'passed' : 'failed'}`;
+      li.innerHTML = `
+        <span class="verify-check-icon">${chk.passed ? '✅' : '❌'}</span>
+        <div>
+          <strong>${chk.nombre}:</strong> ${chk.detalle}
+        </div>
+      `;
+      this.verifyChecklist.appendChild(li);
+    });
+
+    if (analysis.passed) {
+      this.verifyVerdictBox.className = 'verify-verdict-box approved';
+      this.verifyVerdictBox.innerHTML = `<strong>🎯 ¡Misión Verificada con Éxito!</strong><br>La foto cumple con los requisitos del reto. Haz clic en "Cumplir Reto" para registrarla.`;
+      if (this.btnConfirmChallenge) this.btnConfirmChallenge.disabled = false;
+    } else {
+      this.verifyVerdictBox.className = 'verify-verdict-box rejected';
+      this.verifyVerdictBox.innerHTML = `<strong>⚠️ Foto Rechazada por el Espía</strong><br>No cumple los criterios marcados en rojo. Toma una foto donde salgan tus acompañantes con buena luz.`;
+      if (this.btnConfirmChallenge) this.btnConfirmChallenge.disabled = true;
+    }
   }
 
   saveChallengeCompletion(index, dataUrl) {
