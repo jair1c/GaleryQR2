@@ -350,24 +350,46 @@
        MODAL STORIES / REEL (ESTILO TIKTOK / INSTAGRAM STORIES)
        =================================================================== -->
   <div id="storiesModal" class="stories-modal" role="dialog" aria-modal="true" aria-label="Modo Historias de Amor">
-    <div class="stories-viewport">
-      <!-- Barras de progreso segmentadas -->
-      <div class="stories-progress-bar-container" id="storiesProgressContainer"></div>
+    <!-- Controles de navegación para escritorio -->
+    <button id="storiesDesktopPrev" class="stories-desktop-nav stories-desktop-prev" aria-label="Historia anterior" title="Anterior">&#10094;</button>
+    <button id="storiesDesktopNext" class="stories-desktop-nav stories-desktop-next" aria-label="Siguiente historia" title="Siguiente">&#10095;</button>
 
-      <!-- Cabecera de la historia -->
-      <div class="stories-header">
-        <div class="story-profile">
-          <div class="story-avatar" id="storyAvatar">V & J</div>
-          <div class="story-user-info">
-            <h5 id="storyUserName">Valeria & Josué</h5>
-            <span>Nuestra Historia</span>
+    <div class="stories-viewport" id="storiesViewport">
+      <!-- Gradiente protector superior -->
+      <div class="stories-top-gradient"></div>
+
+      <!-- Cabecera de historia y barras de progreso (Safe-Area Aware) -->
+      <div class="stories-header-group">
+        <!-- Barras de progreso segmentadas -->
+        <div class="stories-progress-bar-container" id="storiesProgressContainer"></div>
+
+        <!-- Perfil y acciones de cabecera -->
+        <div class="stories-header">
+          <div class="story-profile">
+            <div class="story-avatar" id="storyAvatar">V & J</div>
+            <div class="story-user-info">
+              <h5 id="storyUserName">Valeria & Josué</h5>
+              <span id="storySubtitle">Nuestra Historia</span>
+            </div>
+          </div>
+          <div class="story-actions">
+            <!-- Botón para silenciar o activar sonido en videos -->
+            <button id="storySoundBtn" class="story-btn story-sound-btn is-muted" aria-label="Activar o desactivar sonido" title="Sonido">
+              <svg class="sound-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <svg class="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <button id="storyCloseBtn" class="story-btn story-close-btn" aria-label="Cerrar historias">&times;</button>
           </div>
         </div>
-        <button id="storyCloseBtn" class="story-close-btn" aria-label="Cerrar historias">&times;</button>
       </div>
 
       <!-- Capa de medios de la historia -->
       <div class="story-media-layer" id="storyMediaLayer"></div>
+
+      <!-- Indicador de carga para medios -->
+      <div class="story-loader" id="storyLoader">
+        <div class="story-spinner"></div>
+      </div>
 
       <!-- Zonas táctiles para avanzar o retroceder -->
       <div class="story-tap-zone">
@@ -375,8 +397,9 @@
         <div class="story-tap-right" id="storyTapRight" title="Siguiente historia"></div>
       </div>
 
-      <!-- Capa de textos y subtítulos -->
+      <!-- Capa de textos y subtítulos con degradado inferior -->
       <div class="story-caption-layer">
+        <span class="story-badge" id="storyBadge">✨ Momento 1 de 4</span>
         <h4 class="story-title" id="storyTitle">Título de la historia</h4>
         <p class="story-text" id="storyText">Texto descriptivo de este momento especial...</p>
       </div>

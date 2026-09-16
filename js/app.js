@@ -66,6 +66,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     });
+
+    // Pausar música ambiental si se abren las historias / videos y reanudar al salir
+    let wasMusicPlayingBeforeStory = false;
+    stories.setAudioCallbacks({
+      onOpen: () => {
+        if (audioPlayer && isMusicPlaying) {
+          wasMusicPlayingBeforeStory = true;
+          audioPlayer.pause();
+          isMusicPlaying = false;
+          musicToggleBtn.classList.remove('playing');
+          musicLabel.textContent = 'Música';
+        } else {
+          wasMusicPlayingBeforeStory = false;
+        }
+      },
+      onClose: () => {
+        if (audioPlayer && wasMusicPlayingBeforeStory) {
+          audioPlayer.play().then(() => {
+            isMusicPlaying = true;
+            musicToggleBtn.classList.add('playing');
+            musicLabel.textContent = 'Pausar';
+          }).catch(() => {});
+          wasMusicPlayingBeforeStory = false;
+        }
+      }
+    });
   } else if (musicToggleBtn) {
     musicToggleBtn.style.display = 'none';
   }
