@@ -73,7 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. RENDERIZAR HERO Y TEXTOS PRINCIPALES
   if (config.pareja) {
     if (brandMonogram) {
-      brandMonogram.innerHTML = `${config.pareja.novia} <span>&</span> ${config.pareja.novio}`;
+      brandMonogram.innerHTML = `
+        <span class="brand-full">${config.pareja.novia} <span>&</span> ${config.pareja.novio}</span>
+        <span class="brand-short">${config.pareja.monograma || 'V & J'}</span>
+      `;
     }
     if (heroTagline) {
       heroTagline.textContent = config.pareja.subtituloHero || 'Nuestra Historia';

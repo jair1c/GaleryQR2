@@ -111,7 +111,18 @@ img, video {
   gap: 6px;
 }
 
-.brand-monogram span {
+.brand-full {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.brand-short {
+  display: none;
+}
+
+.brand-monogram span span,
+.brand-monogram .brand-short span {
   color: var(--accent-gold);
   font-style: italic;
   font-family: var(--font-serif);
@@ -655,31 +666,94 @@ img, video {
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+  .brand-full {
+    display: none;
+  }
+
+  .brand-short {
+    display: inline-flex;
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .nav-links {
+    gap: 8px;
+  }
+
+  .nav-link {
+    font-size: 0.76rem;
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
 @media (max-width: 900px) {
+  .hero-section {
+    padding: 30px 0 50px;
+    min-height: auto;
+    overflow: hidden;
+  }
+
   .hero-grid {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 40px;
-  }
-  
-  .hero-description {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-actions {
-    justify-content: center;
+    gap: 28px;
   }
 
   .hero-art-wrapper {
     order: -1;
-    max-width: 320px;
+    max-width: 290px;
+    margin: 0 auto;
+  }
+
+  .hero-art-card {
+    aspect-ratio: 4/4.5;
   }
 
   .hero-floating-badge {
-    bottom: -15px;
-    right: 50%;
-    transform: translateX(50%);
+    position: relative;
+    bottom: auto;
+    right: auto;
+    transform: none;
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px 16px;
+    box-sizing: border-box;
+  }
+
+  .hero-floating-badge span {
+    font-size: 0.72rem;
+  }
+
+  .hero-floating-badge strong {
+    font-size: 1.05rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 11vw, 3.8rem);
+    margin-bottom: 14px;
+  }
+
+  .hero-tagline {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.98rem;
+    margin-bottom: 24px;
+  }
+
+  .hero-actions {
+    justify-content: center;
   }
 
   .guests-grid {
@@ -689,15 +763,11 @@ img, video {
 
 @media (max-width: 600px) {
   .container {
-    width: calc(100% - 32px);
+    width: calc(100% - 28px);
   }
 
   .hero-section {
-    padding: 40px 0 60px;
-  }
-
-  .hero-title {
-    font-size: 2.8rem;
+    padding: 24px 0 50px;
   }
 
   .btn-primary, .btn-stories {
